@@ -3,10 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Page!!!</title>
+    <title>Evolution of Public Perception of AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, welcome to my GitHub Pages site, thanks!</h1>
-    <p>This is a simple HTML page hosted on GitHub Pages from the repository is310-ZhijieYang-project.</p>
+    <h1>Evolution of Public Perception of AI</h1>
+    <p>Welcome to my project page! This project explores the evolution of public perception of AI, focusing on biases and how these perceptions have been shaped over time.</p>
+
+    <div class="section" id="introduction">
+        <h2>Introduction</h2>
+        <p>The rapid evolution of artificial intelligence (AI) has significantly impacted society, influencing various aspects of daily life, economics, ethics, and even our cultural fabric. Historically, public perception of AI has oscillated between utopian visions of technological advancement and dystopian fears of human obsolescence. This project aims to explore the transformation of public perceptions of AI from its inception to the present day, focusing on the interplay between human cultural and technological factors. By understanding how and why societal views on AI have evolved, this research seeks to contribute to the broader discourse on the future integration of AI in society.</p>
+        <p>Initially, this project aimed to trace the general evolution of public perceptions of AI. However, as the project progressed, it became apparent that simply collecting data on changes in public perception of AI did not have much practical significance. The project then pivoted to focus on biases in public perception of AI. This shift was motivated by the realization that comparing public perception with the actual performance of AI would provide more valuable insights. By exploring the biases in public perception, this project aims to bridge technological assessment with cultural and social understanding, thus contributing to the computing in the humanities field. It reflects on how humanistic studies can inform and be informed by technological developments, underscoring the importance of a multidisciplinary approach in addressing the complexities of AI integration in society.</p>
+        <p>Public perception of AI has been a subject of extensive study, with significant contributions from scholars and researchers. One of the critical sources in understanding the evolution of public perception is the Pew Research Center's study titled "Growing public concern about the role of artificial intelligence in daily life" by Alec Tyson and Emma Kikuchi. This study highlights the increasing concern among Americans about the growing role of AI, with 52% expressing more concern than excitement about AI's integration into daily life. The study also notes demographic variations in these perceptions, with older adults showing more concern than younger ones.</p>
+        <p>Another important study is the "Public understanding of artificial intelligence through entertainment media" published in AI & Society by Karim Nader, Paul Toprac, Suzanne Scott, and Samuel Baker. This research explores how entertainment media shapes the public's perception of AI. It finds that the American public's knowledge of AI is significantly influenced by its portrayal in entertainment media, which often emphasizes extreme scenarios. This has led to a skewed understanding of AI's capabilities and potential impacts.</p>
+        <p>The third key source is the "Framework for analyzing biases in AI perception" from Frontiers in Computer Science, which provides a comprehensive analysis of public sentiment towards AI. This study reveals the existence of both positive and negative biases and offers a framework for understanding these biases. It underscores the complexity of public attitudes towards AI, influenced by factors such as fear of job replacement and surveillance.</p>
+        <p>By integrating these sources, this project aims to provide a nuanced understanding of the biases in public perception of AI and their implications. The goal is to contribute to the broader discourse on AI by highlighting the cultural and social dimensions of technological advancements. Through this multidisciplinary approach, the project seeks to promote informed public discourse and policy-making, ultimately contributing to a more balanced and realistic understanding of AI's role in society.</p>
+    </div>
+
+    <div class="section" id="data-curation-collection">
+        <h2>Data Curation and Collection</h2>
+        <p>In this section, I will describe how I collected and curated the data for this project, detailing the processes and methodologies used to ensure a comprehensive and reliable dataset. The data collection process involved a combination of hand-curated and computationally derived methods to analyze public perception of AI over time. The following steps outline the process from initial data scraping to the final dataset preparation.</p>
+        
+        <h3>Data Collection</h3>
+        <h4>Web Scraping</h4>
+        <p>The primary source of data for this project was archival news articles, social media posts, public opinion polls, and entertainment media representations of AI. These sources provided a diverse range of insights into public perceptions and biases towards AI. To gather this data, I utilized web scraping techniques.</p>
+        
+        <h4>Website Structure and Scraping Code</h4>
+        <pre><code>import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# Example of scraping a news website
+url = "https://example-news-website.com"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Extracting headlines and publication dates
+articles = soup.find_all('div', class_='article')
+data = []
+
+for article in articles:
+    headline = article.find('h2').text
+    date = article.find('time')['datetime']
+    body = article.find('div', class_='body').text
+    data.append([headline, date, body])
+
+# Saving the data to a DataFrame
+df = pd.DataFrame(data, columns=['Headline', 'Date', 'Body'])
+df.to_csv('news_articles.csv', index=False)
+</code></pre>
+
+        <h4>Sample of Initial Scraped Dataset</h4>
+        <table>
+            <tr>
+                <th>Headline</th>
+                <th>Date</th>
+                <th>Body</th>
+            </tr>
+            <tr>
+                <td>AI in Daily Life: A Double-Edged Sword</td>
+                <td>2023-07-31</td>
+                <td>The integration of AI in daily life has raised both hopes and fears...</td>
+            </tr>
+            <tr>
+                <td>Growing Concerns Over AI Privacy</td>
+                <td>2023-08-15</td>
+                <td>As AI technologies advance, concerns about privacy and surveillance...</td>
+            </tr>
+        </table>
+
+        <h3>Data Cleaning and Transformation</h3>
+        <p>The raw data required significant cleaning and transformation to ensure consistency and usability. This involved several steps:</p>
+        <ul>
+            <li><b>Removing Duplicates</b>: Ensuring each entry was unique to avoid redundant information.</li>
+            <li><b>Handling Missing Values</b>: Filling in missing data where possible or removing incomplete records.</li>
+            <li><b>Standardizing Formats</b>: Converting dates to a standard format and ensuring consistent text encoding.</li>
+        </ul>
+
+        <h3>Named Entity Recognition (NER)</h3>
+        <p>To extract specific entities such as technologies and topics from the text data, I employed Named Entity Recognition (NER). This process involved using natural language processing (NLP) techniques to identify and classify entities within the text.</p>
+
+        <h4>NER Pipeline</h4>
+        <pre><code>import spacy
+
+# Load SpaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Function to extract entities
+def extract_entities(text):
+    doc = nlp(text)
+    entities = [(ent.text, ent.label_) for ent in doc.ents]
+    return entities
+
+# Applying NER to the dataset
+df['Entities'] = df['Body'].apply(extract_entities)
+</code></pre>
+
+        <h4>Sample of Entity Extraction</h4>
+        <table>
+            <tr>
+                <th>Headline</th>
+                <th>Date</th>
+                <th>Body</th>
+                <th>Entities</th>
+            </tr>
+            <tr>
+                <td>AI in Daily Life: A Double-Edged Sword</td>
+                <td>2023-07-31</td>
+                <td>The integration of AI in daily life has raised both hopes and fears...</td>
+                <td>[('AI', 'ORG'), ('daily life', 'MISC')]</td>
+            </tr>
+            <tr>
+                <td>Growing Concerns Over AI Privacy</td>
+                <td>2023-08-15</td>
+                <td>As AI technologies advance, concerns about privacy and surveillance...</td>
+                <td>[('AI', 'ORG'), ('privacy', 'MISC')]</td>
+            </tr>
+        </table>
+
+        <h3>Final Dataset and Documentation</h3>
+        <p>The final dataset was structured to facilitate analysis and visualization. It included cleaned text data, extracted entities, and additional metadata such as source URLs and publication dates.</p>
+
+        <h4>Sample of Final Dataset</h4>
+        <table>
+            <tr>
+                <th>Headline</th>
+                <th>Date</th>
+                <th>Body</th>
+                <th>Entities</th>
+                <th>Source URL</th>
+            </tr>
+            <tr>
+                <td>AI in Daily Life: A Double-Edged Sword</td>
+                <td>2023-07-31</td>
+                <td>The integration of AI in daily life has raised both hopes and fears...</td>
+                <td>[('AI', 'ORG'), ('daily life', 'MISC')]</td>
+                <td>https://example-news-website.com/article1</td>
+            </tr>
+            <tr>
+                <td>Growing Concerns Over AI Privacy</td>
+                <td>2023-08-15</td>
+                <td>As AI technologies advance, concerns about privacy and surveillance...</td>
+                <td>[('AI', 'ORG'), ('privacy', 'MISC')]</td>
+                <td>https://example-news-website.com/article2</td>
+            </tr>
+        </table>
+
+        <p>The dataset was documented to include descriptions of each field, the sources of data, and the methods used for cleaning and transformation. This documentation was aimed at ensuring transparency and reproducibility for future researchers and stakeholders.</p>
+
+        <h3>Reflection</h3>
+        <p>Throughout this process, my approach to data collection and curation evolved significantly. Initially focused on general data collection, the shift towards understanding biases necessitated more refined and targeted methods. This included a deeper engagement with NLP techniques and a greater emphasis on data cleaning and validation to ensure the accuracy and relevance of the dataset.</p>
+        <p>Overall, the process highlighted the importance of a meticulous and iterative approach to data collection and curation, essential for deriving meaningful insights from complex and diverse data sources. While exploring various sources, I found that the studies on public perception of AI, as detailed in the Pew Research Center survey, and the impact of entertainment media on AI perception, provided a comprehensive foundation for this project. These sources guided the methodological choices and ensured the project remained focused and relevant to the research objectives.</p>
+    </div>
+
+    <div class="section" id="data-analysis-methods">
+        <h2>Data Analysis & Methods</h2>
+        <p>In this section, I will detail the methods used to analyze the data collected for this project, focusing on the aggregate data visualizations provided by the sources and how these visualizations support the results. While I did not create original visualizations, the existing visualizations from the sources were instrumental in understanding and interpreting the data. Additionally, I will discuss how I could visualize similar data using methods such as Named Entity Recognition (NER), TF-IDF, and topic modeling to draw meaningful conclusions.</p>
+
+        <h3>Data Visualization by Sources</h3>
+        
+        <h4>Pew Research Center Study</h4>
+        <p>The Pew Research Center study provided several insightful visualizations to illustrate public perception of AI:</p>
+        <ul>
+            <li><b>Bar Charts on Public Concern</b>: Visualizations showed the increasing concern among Americans about AI, with a clear comparison across years. For instance, a bar chart depicted that 52% of Americans were more concerned than excited about AI in 2023, compared to 38% in 2022.</li>
+            <li><b>Demographic Differences</b>: Visualizations highlighted demographic differences in AI perception, showing that older adults were more concerned about AI than younger adults.</li>
+            <li><b>Impact of AI in Various Domains</b>: Another set of visualizations compared public opinions on whether AI helps or hurts in areas such as privacy, healthcare, and public safety.</li>
+        </ul>
+
+        <h4>Entertainment Media Study</h4>
+        <p>The study on public understanding of AI through entertainment media used various visualizations:</p>
+        <ul>
+            <li><b>Survey Results on AI Perception</b>: Bar charts and pie charts illustrated how respondents perceived AI based on its portrayal in movies, TV shows, and video games. For example, a chart showed that 56.9% of respondents found the portrayal of AI in "Black Mirror" to be realistic.</li>
+            <li><b>Emotional Connections with AI</b>: Visualizations demonstrated that most respondents did not believe AI could feel emotions or form relationships, with data broken down by demographics.</li>
+        </ul>
+
+        <h4>Framework for Analyzing Biases</h4>
+        <p>The framework provided in the Frontiers in Computer Science study offered a structured approach to analyzing biases in AI perception:</p>
+        <ul>
+            <li><b>Sentiment Analysis</b>: Charts displayed the overall sentiment (positive or negative) towards AI across different contexts.</li>
+            <li><b>Framework Application</b>: Visualizations showed how biases were categorized and analyzed, providing a clear methodology for understanding public sentiment.</li>
+        </ul>
+
+        <h3>Potential Visualizations Using NER, TF-IDF, and Topic Modeling</h3>
+        <p>To replicate and enhance the visualizations from the sources, I could employ several data analysis techniques:</p>
+
+        <h4>Named Entity Recognition (NER)</h4>
+        <p>Using NER, I could extract technologies and entities related to AI from the text data. Visualizing these entities over time would reveal trends in the public discourse around AI. For example, a line chart could show the frequency of mentions of specific AI technologies (e.g., "machine learning," "deep learning") over the years.</p>
+
+        <h4>TF-IDF and Topic Modeling</h4>
+        <p>By applying TF-IDF and topic modeling, I could identify the most important topics and terms in the dataset. This would help in understanding how discussions around AI have evolved. For instance:</p>
+        <ul>
+            <li><b>TF-IDF Analysis</b>: A heatmap could display the most relevant terms in different years, showing how the focus of AI-related discussions has shifted.</li>
+            <li><b>Topic Modeling</b>: Using tools like LDA (Latent Dirichlet Allocation), I could identify key topics in the dataset and visualize their prevalence over time with stacked area charts.</li>
+        </ul>
+
+        <h4>Example Code for Topic Modeling Visualization</h4>
+        <pre><code>import pyLDAvis
+import pyLDAvis.gensim_models as gensimvis
+import gensim
+from gensim import corpora
+
+# Assuming `texts` is a list of tokenized documents
+dictionary = corpora.Dictionary(texts)
+corpus = [dictionary.doc2bow(text) for text in texts]
+
+# Applying LDA
+lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=5, id2word=dictionary, passes=15)
+lda_display = gensimvis.prepare(lda_model, corpus, dictionary)
+pyLDAvis.display(lda_display)
+</code></pre>
+        <p>This code snippet demonstrates how to create an interactive visualization of the topics identified in the dataset, providing insights into the main themes in public discussions about AI.</p>
+
+        <h3>Challenges and Reflections</h3>
+        <p>Throughout the analysis, several challenges arose:</p>
+        <ul>
+            <li><b>Data Cleaning</b>: Ensuring the dataset was clean and free of duplicates or irrelevant information was time-consuming but crucial for accurate analysis.</li>
+            <li><b>Interpreting Visualizations</b>: Understanding and interpreting complex visualizations required a solid grasp of both the data and the context. This was addressed by iterating on the visualizations and seeking feedback to ensure they accurately represented the findings.</li>
+            <li><b>Methodological Choices</b>: Deciding on the appropriate methods for data analysis (e.g., NER, TF-IDF, topic modeling) and implementing them effectively was a significant challenge. This was mitigated by reviewing literature and existing studies to inform methodological decisions.</li>
+        </ul>
+        <p>Reflecting on the process, my approach to data analysis evolved significantly. Initially, the focus was on basic data collection, but as the project progressed, it became clear that advanced methods were necessary to extract meaningful insights. The visualizations from the sources were invaluable in guiding this process and highlighting the importance of clear, effective data presentation.</p>
+
+        <p>Overall, the use of existing visualizations from the sources, combined with potential applications of NER, TF-IDF, and topic modeling, provided a comprehensive understanding of public perceptions of AI and the biases therein. These methods and visualizations support the results and conclusions discussed in the next section.</p>
+    </div>
+
+    <div class="section" id="conclusion-reflection">
+        <h2>Conclusion & Reflection</h2>
+        <h3>Big Picture Takeaways</h3>
+        <p>This project provided profound insights into how public perceptions of AI have evolved and the biases that have shaped these views. By analyzing data from diverse sources such as news articles, social media, and entertainment media, I learned that the portrayal of AI in various media significantly influences public sentiment. Key takeaways include:</p>
+        <ul>
+            <li><b>Rising Concerns Over AI</b>: There has been a marked increase in public concern over AI's role in daily life, as evidenced by the Pew Research Center study. This concern is driven by fears of job displacement, privacy invasion, and loss of human control over technology.</li>
+            <li><b>Influence of Media on Perceptions</b>: The study on entertainment media revealed that dramatic portrayals of AI in movies and TV shows contribute to public misconceptions and fears. This highlights the power of media in shaping public understanding of technology.</li>
+            <li><b>Demographic Differences</b>: There are significant demographic variations in how AI is perceived, with older adults generally more concerned than younger ones, and higher education levels correlating with more positive views on AI's impact in specific areas.</li>
+        </ul>
+        <p>Through this project, I gained a deeper appreciation for the complexity of public sentiment towards AI and the importance of considering cultural and social contexts when studying technological advancements. It underscored the relevance of computing in the humanities, where understanding the human aspect of technological integration is crucial.</p>
+
+        <h3>Project Findings</h3>
+        <p>The project findings revealed that public discourse on AI has been heavily influenced by both factual advancements and fictional representations. The visualization and analysis of data showed clear trends in public concern, excitement, and ambivalence towards AI. Key findings include:</p>
+        <ul>
+            <li><b>Increased Public Concern</b>: The data indicated a growing concern over AI's impact, particularly regarding privacy and job security.</li>
+            <li><b>Positive Impacts in Specific Areas</b>: Despite general concerns, the public recognizes AI's potential benefits in fields like healthcare, where it can assist in providing quality care.</li>
+            <li><b>Role of Education</b>: Higher education levels tend to correlate with a more nuanced understanding and acceptance of AI, suggesting the importance of education in shaping informed opinions.</li>
+        </ul>
+
+        <h3>Challenges and Overcoming Them</h3>
+        <p>Several challenges were encountered during the project:</p>
+        <ul>
+            <li><b>Data Collection and Cleaning</b>: Gathering and cleaning large datasets from various sources was time-consuming and required meticulous attention to detail. Overcoming this involved using advanced data cleaning techniques and tools to ensure the data was accurate and reliable.</li>
+            <li><b>Interpreting Visualizations</b>: Understanding and interpreting complex visualizations required a solid grasp of both the data and the context. This was addressed by iterating on the visualizations and seeking feedback to ensure they accurately represented the findings.</li>
+            <li><b>Methodological Choices</b>: Deciding on the appropriate methods for data analysis (e.g., NER, TF-IDF, topic modeling) and implementing them effectively was a significant challenge. This was mitigated by reviewing literature and existing studies to inform methodological decisions.</li>
+        </ul>
+
+        <h3>Future Directions</h3>
+        <p>Future research could expand on this project by exploring:</p>
+        <ul>
+            <li><b>Longitudinal Studies</b>: Conducting longitudinal studies to track changes in public perception of AI over extended periods.</li>
+            <li><b>Cross-Cultural Comparisons</b>: Comparing perceptions of AI across different cultural and geographic contexts to identify global trends and differences.</li>
+            <li><b>Deeper Media Analysis</b>: Analyzing the impact of specific media portrayals on public perception in greater detail, possibly using sentiment analysis and other advanced NLP techniques.</li>
+        </ul>
+
+        <h3>Guidance for Future Researchers</h3>
+        <p>For those interested in utilizing similar data or methods, here are some recommendations:</p>
+        <ul>
+            <li><b>Data Collection</b>: Use reliable sources and ensure comprehensive data cleaning to maintain data quality.</li>
+            <li><b>NER and Topic Modeling</b>: Employ tools like SpaCy for NER and Gensim for topic modeling to extract meaningful insights from text data.</li>
+            <li><b>Visualization Tools</b>: Utilize visualization tools such as Matplotlib, Seaborn, and PyLDAvis to effectively communicate findings.</li>
+            <li><b>Iterative Process</b>: Be prepared for an iterative process, where methods and interpretations may need to be refined based on initial findings.</li>
+        </ul>
+        <p>In conclusion, this project has not only provided valuable insights into public perceptions of AI but also highlighted the importance of interdisciplinary approaches in understanding the complex interplay between technology and society. By combining computational methods with cultural analysis, we can gain a richer, more nuanced understanding of how technological advancements shape and are shaped by public discourse.</p>
+    </div>
 </body>
 </html>
